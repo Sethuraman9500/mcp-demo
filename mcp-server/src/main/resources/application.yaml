@@ -1,3 +1,31 @@
 spring:
   application:
     name: mcp-server
+
+  ai:
+    mcp:
+      server:
+        # 1. Use STREAMABLE instead of just 'sse'
+        protocol: STREAMABLE
+        name: ${spring.application.name}
+        version: 1.0.0
+        # 2. Set transport-specific settings
+        streamable-http:
+          mcp-endpoint: /mcp
+        # 3. Disable stdio to prevent it from capturing the console
+        stdio: false
+        # 4. Ensure tool capabilities are enabled
+        capabilities:
+          tool: true
+        type: SYNC
+        annotation-scanner:
+          enabled: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.mcp.server: INFO
+    # Debugging logs for protocol message exchange
+    org.springframework.ai.mcp: DEBUG
